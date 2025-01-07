@@ -40,7 +40,7 @@ export const createUsuario = async (req, res) => {
 
     } catch (error) {
         console.error(error)
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
             message: 'Error interno del servidor',
             error: error.message
@@ -49,13 +49,32 @@ export const createUsuario = async (req, res) => {
 }
 
 
+export const getUsuarios = async (req, res) => {
+    try {
+        const usuarios = await UsuarioModel.getUsuarios()
+
+        res.status(200).json({
+            success: true,
+            message: 'Lista de Usuarios',
+            data: usuarios
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor',
+            error: error.message
+        })
+    }
+
+}
 
 
 //Ruta para obtener informacion del usuario logueado
 export const getUsuario = async (req, res) => {
     try {
         const id = req.params.id
-        const usuario = await UsuarioModel.getUsuariosBy({id})
+        const usuario = await UsuarioModel.getUsuariosBy({ id })
 
         if (usuario.length === 0) {
             return res.status(404).json({

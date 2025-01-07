@@ -6,7 +6,7 @@ export const generarToken = (payload) => {
     const user = {
         id: payload.id,
         email: payload.email,
-        rol: payload.rol_name
+        rol: payload.rol
     }
 
     //retornar token firmado

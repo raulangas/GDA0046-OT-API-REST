@@ -4,9 +4,10 @@ import { ImageUploaderMiddleware } from "../middleware/ImageUploaderMiddleware.j
 import { AuthMiddleware } from "../middleware/AuthMiddleware.js"
 import { ValidateIdParamMiddleware } from "../middleware/ValidateIdParamMiddleware.js"
 import { PaginacionMiddleware } from "../middleware/PaginacionMiddleware.js"
+import ROL from "../utils/appRoles.js"
 
 const productoRoutes = Router()
-const roles_autorizados = ['Operador']
+const roles_autorizados = [ROL.OPERADOR]
 
 // GET /products
 // Rutas publicas

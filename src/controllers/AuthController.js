@@ -21,19 +21,24 @@ export const loginAuth = async (req, res) => {
         //validar contraseña
         const password_match = await bcrypt.compare(password, usuario[0].password)
         if (!password_match) {
+            //no dar mensaje de contraseña incorrecta, por seguridad
             return res.status(400).json({
                 success: false,
-                message: 'Contraseña incorrecta!'
+                message: 'Usuario o contraseña incorrectos!'
             })
         }
 
         //generar token
         const token = generarToken(usuario[0])
+        const { password: _, ...user } = usuario[0]
 
         res.status(200).json({
             success: true,
             message: 'Usuario logueado exitosamente',
-            data: token
+            data: {
+                user,
+                token
+            }
         })
 
     } catch (error) {

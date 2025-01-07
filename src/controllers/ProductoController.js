@@ -113,18 +113,29 @@ export const updateProducto = async (req, res) => {
         const producto = { ...req.body, id }
 
 
+        const new_producto = {
+            id: producto.id,
+            categoria: producto.categoria,
+            usuario: producto.usuario,
+            nombre: producto.nombre,
+            marca: producto.marca,
+            codigo: producto.codigo,
+            stock: producto.stock,
+            precio: producto.precio,
+            activo: producto.activo
+        }
         const imagen_path = req.file ? req.file.path : null
 
 
         if (imagen_path) {
             console.log('Imagen:', imagen_path);
             //actualizar imagen si se recibe
-            const imagen = imagen ? await fs.readFile(imagen_path) : null
-            producto.imagen = imagen
+            const imagenBuffer = imagen_path ? await fs.readFile(imagen_path) : null
+            new_producto.imagen = imagenBuffer
         }
 
 
-        const result = await Producto.updateProducto(producto)
+        const result = await Producto.updateProducto(new_producto)
 
         //borrar archivo
         if (imagen_path) {

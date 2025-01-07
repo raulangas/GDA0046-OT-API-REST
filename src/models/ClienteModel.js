@@ -33,6 +33,7 @@ class ClienteModel extends BaseModel {
 
             const resultado = await ClienteModel.ejecutarProcedimiento('sp_cliente_get', { id })
 
+            console.log(resultado)
             if (resultado[1] === 0) {
                 return null
             }

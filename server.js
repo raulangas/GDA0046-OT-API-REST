@@ -10,7 +10,7 @@ import ordenRoutes from './src/routes/OrdenRoutes.js'
 import clienteRoutes from './src/routes/ClienteRoutes.js'
 
 
-import { PORT,IP_HOST, NODE_ENV, REACT_APP_HOST } from './src/config/app.js'
+import { PORT, IP_HOST, NODE_ENV, REACT_APP_HOST } from './src/config/app.js'
 
 
 
@@ -51,7 +51,7 @@ app.use('/api/productos', productoRoutes);
 app.use('/api/categorias', categoriaRoutes);
 app.use('/api/clientes', clienteRoutes);
 app.use('/api/estado', estadoRoutes);
-app.use('/api/orden', ordenRoutes);
+app.use('/api/ordenes', ordenRoutes);
 
 // Manejo de rutas no encontradas
 app.use((req, res) => {
@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
     message: 'Error interno del servidor',
-    error: process.env.NODE_ENV === 'development' ? err.message : {}
+    error: process.env.NODE_ENV !== 'production' ? err.message : {}
   });
 });
 
@@ -81,7 +81,7 @@ sequelize.authenticate()
 
 
 // Iniciar servidor
-app.listen(PORT,IP_HOST, () => {
+app.listen(PORT, IP_HOST, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 

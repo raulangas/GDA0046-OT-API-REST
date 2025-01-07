@@ -3,10 +3,10 @@ import { getCategorias, getCategoriaById, getCategoriasByActivo, createCategoria
 import { ValidateIdParamMiddleware } from "../middleware/ValidateIdParamMiddleware.js"
 import { ValidateBooleanParamMiddleware } from "../middleware/ValidateBooleanParamMiddleware.js"
 import { AuthMiddleware } from "../middleware/AuthMiddleware.js"
-
+import ROL from "../utils/appRoles.js"
 
 const categoriaRoutes = Router()
-const roles_autorizados = ['Operador']
+const roles_autorizados = [ROL.OPERADOR]
 // GET /categorias
 // Rutas publicas
 categoriaRoutes.get("/", getCategorias)
@@ -15,7 +15,7 @@ categoriaRoutes.get("/activo/:activo",ValidateBooleanParamMiddleware, getCategor
 
 //Rutas privadas
 categoriaRoutes.post("/",AuthMiddleware(roles_autorizados), createCategoria)
-categoriaRoutes.put("/:id",AuthMiddleware([roles_autorizados]),ValidateIdParamMiddleware, updateCategoria)
+categoriaRoutes.put("/:id",AuthMiddleware(roles_autorizados),ValidateIdParamMiddleware, updateCategoria)
 
 
 export default categoriaRoutes

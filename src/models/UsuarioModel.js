@@ -17,11 +17,11 @@ class UsuarioModel extends BaseModel {
         }
     }
 
-    
+
 
     //obtiene usuario segun filtros
     static async getUsuariosBy(filtros) {
-        const { id=null, email=null, rol=null, activo=null } = filtros
+        const { id = null, email = null, rol = null, activo = null } = filtros
         try {
             console.log('filtros:', filtros)
 
@@ -30,11 +30,11 @@ class UsuarioModel extends BaseModel {
             }
 
             //quitar los filtro que vengan vacios
-            const filterBy={}
-            if(id) filterBy.id=id
-            if(email) filterBy.email=email
-            if(rol) filterBy.rol=rol
-            if(activo) filterBy.activo=activo
+            const filterBy = {}
+            if (id) filterBy.id = id
+            if (email) filterBy.email = email
+            if (rol) filterBy.rol = rol
+            if (activo) filterBy.activo = activo
 
             const resultado = await UsuarioModel.ejecutarProcedimiento('sp_usuario_get', filterBy)
 
@@ -48,21 +48,23 @@ class UsuarioModel extends BaseModel {
 
     static async createUsuario(usuario) {
         try {
-            const {  rol,email, nombre_completo,password,telefono, fecha_nacimiento } = usuario
-            const new_user= {
+            const { rol, email, nombre_completo, password, telefono, fecha_nacimiento, cliente, activo } = usuario
+            const new_user = {
                 rol,
                 email,
                 nombre_completo,
                 password,
                 telefono,
-                fecha_nacimiento
+                fecha_nacimiento,
+                cliente, 
+                activo
             }
             console.log('new_user:', new_user)
             //validar campos requeridos
             if (!rol || !email || !nombre_completo || !password || !telefono || !fecha_nacimiento) {
                 throw new Error('Los campos rol, email, nombre_completo y password son requeridos')
             }
-            const resultado = await UsuarioModel.ejecutarProcedimiento('sp_usuario_create',new_user)
+            const resultado = await UsuarioModel.ejecutarProcedimiento('sp_usuario_create', new_user)
             return resultado[0][0]
 
         } catch (error) {
@@ -74,21 +76,23 @@ class UsuarioModel extends BaseModel {
     static async updateUsuario(usuario) {
         try {
             //no se puede actualizar el rol
-            const { id, email, nombre_completo,password,telefono, fecha_nacimiento } = usuario
-            const user= {
+            const { id, email, nombre_completo, password, telefono, fecha_nacimiento, cliente, activo } = usuario
+            const user = {
                 id,
                 email,
                 nombre_completo,
                 password,
                 telefono,
-                fecha_nacimiento
+                fecha_nacimiento,
+                cliente,
+                activo
             }
             console.log('user:', user)
             //validar campos requeridos
             if (!id || !email || !nombre_completo || !password || !telefono || !fecha_nacimiento) {
                 throw new Error('Los campos id, email, nombre_completo , password telefono y facha_nacimiento son requeridos')
             }
-            const resultado = await UsuarioModel.ejecutarProcedimiento('sp_usuario_update',user)
+            const resultado = await UsuarioModel.ejecutarProcedimiento('sp_usuario_update', user)
             return resultado[0][0]
 
         } catch (error) {

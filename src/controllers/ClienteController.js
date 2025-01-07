@@ -21,6 +21,14 @@ export const getClienteById = async (req, res) => {
     const id = req.params.id
     try {
         const cliente = await ClienteModel.getClienteById(id)
+
+        if (!cliente) {
+            return res.status(404).json({
+                success: false,
+                message: 'Cliente no encontrado'
+            })
+        }
+
         res.status(200).json({
             success: true,
             message: 'Cliente encontrado',
@@ -39,18 +47,17 @@ export const getClienteById = async (req, res) => {
 
 
 export const createCliente = async (req, res) => {
-    const { razon_social, nombre_comercial, direccion_entrega, telefono, email, usuario } = req.body
+    const { razon_social, nombre_comercial, direccion_entrega, telefono, email } = req.body
     try {
         const new_cliente = {
             razon_social,
             nombre_comercial,
             direccion_entrega,
             telefono,
-            email,
-            usuario
+            email
         }
 
-        const result = await ClienteModel.createCliente(cliente)
+        const result = await ClienteModel.createCliente(new_cliente)
         res.status(201).json({
             success: true,
             message: 'Cliente creado',
